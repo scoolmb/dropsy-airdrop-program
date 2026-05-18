@@ -1,0 +1,8 @@
+[fuzz.metrics]
+enabled = true
+
+
+[[fuzz.programs]]
+address = "GqVDHBaTKkNnLxyKmSSsNqwkthdB77mf31RsZSApRetA"
+program = "../target/deploy/dropsy_airdrop.so"
+ 
