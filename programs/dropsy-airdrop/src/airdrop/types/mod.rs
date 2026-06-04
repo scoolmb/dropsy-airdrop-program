@@ -51,21 +51,20 @@ pub struct AirdropConfigInitArgs {
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone)]
 pub struct AirdropInitArgs {
+    pub id: u64,
     pub merkle_root: Option<[u8; 32]>,
     pub starts_at: Option<i64>,
     pub ends_at: Option<i64>,
     pub version: Option<u8>,
-    pub mutable: Option<u8>,
     pub delegate_authority: Option<Pubkey>,
-    pub delegate_permissions: Option<u8>,
 }
 
 pub struct AirdropInitData {
+    pub id: u64,
     pub starts_at: i64,
     pub ends_at: i64,
     pub version: u8,
     pub merkle_root: [u8; 32],
-    pub mutable: u8,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, Debug)]
@@ -74,4 +73,5 @@ pub struct AirdropClaimArgs {
     pub proof: Vec<[u8; 32]>,
     pub amount: u64,
     pub claim_map_index: u16,
+    pub airdrop_id: u64,
 }

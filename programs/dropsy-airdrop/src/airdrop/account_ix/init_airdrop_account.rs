@@ -42,7 +42,7 @@ pub struct BaseAirdropInitStruct<'info> {
     args: AirdropInitArgs
 )]
 pub struct InitializedAirdrop<'info> {
-     pub base : BaseAirdropInitStruct<'info>,
+    pub base : BaseAirdropInitStruct<'info>,
 
     // airdrop pda to be initialized
     #[account(
@@ -52,6 +52,7 @@ pub struct InitializedAirdrop<'info> {
             AIRDROP_SEED, 
             authority.key().as_ref(),
             mint.key().as_ref(), 
+            &args.id.to_le_bytes(),
         ],
         space = Airdrop::LEN,
         bump,

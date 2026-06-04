@@ -40,6 +40,7 @@ pub fn claim_tokens(ctx: Context<ClaimTokens>, args: AirdropClaimArgs) -> Result
         AIRDROP_SEED,
         airdrop.authority.as_ref(),
         airdrop.mint.as_ref(),
+        &airdrop.id.to_le_bytes(),
         &[airdrop.bump],
     ]];
 

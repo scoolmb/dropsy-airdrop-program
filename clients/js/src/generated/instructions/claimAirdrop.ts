@@ -136,6 +136,7 @@ export type ClaimAirdropInstructionData = {
   proof: Array<ReadonlyUint8Array>;
   amount: bigint;
   claimMapIndex: number;
+  airdropId: bigint;
 };
 
 export type ClaimAirdropInstructionDataArgs = {
@@ -143,6 +144,7 @@ export type ClaimAirdropInstructionDataArgs = {
   proof: Array<ReadonlyUint8Array>;
   amount: number | bigint;
   claimMapIndex: number;
+  airdropId: number | bigint;
 };
 
 export function getClaimAirdropInstructionDataEncoder(): Encoder<ClaimAirdropInstructionDataArgs> {
@@ -153,6 +155,7 @@ export function getClaimAirdropInstructionDataEncoder(): Encoder<ClaimAirdropIns
       ["proof", getArrayEncoder(fixEncoderSize(getBytesEncoder(), 32))],
       ["amount", getU64Encoder()],
       ["claimMapIndex", getU16Encoder()],
+      ["airdropId", getU64Encoder()],
     ]),
     (value) => ({ ...value, discriminator: CLAIM_AIRDROP_DISCRIMINATOR }),
   );
@@ -165,6 +168,7 @@ export function getClaimAirdropInstructionDataDecoder(): Decoder<ClaimAirdropIns
     ["proof", getArrayDecoder(fixDecoderSize(getBytesDecoder(), 32))],
     ["amount", getU64Decoder()],
     ["claimMapIndex", getU16Decoder()],
+    ["airdropId", getU64Decoder()],
   ]);
 }
 
@@ -214,6 +218,7 @@ export type ClaimAirdropAsyncInput<
   proof: ClaimAirdropInstructionDataArgs["proof"];
   amount: ClaimAirdropInstructionDataArgs["amount"];
   claimMapIndex: ClaimAirdropInstructionDataArgs["claimMapIndex"];
+  airdropId: ClaimAirdropInstructionDataArgs["airdropId"];
 };
 
 export async function getClaimAirdropInstructionAsync<
@@ -443,6 +448,7 @@ export type ClaimAirdropInput<
   proof: ClaimAirdropInstructionDataArgs["proof"];
   amount: ClaimAirdropInstructionDataArgs["amount"];
   claimMapIndex: ClaimAirdropInstructionDataArgs["claimMapIndex"];
+  airdropId: ClaimAirdropInstructionDataArgs["airdropId"];
 };
 
 export function getClaimAirdropInstruction<

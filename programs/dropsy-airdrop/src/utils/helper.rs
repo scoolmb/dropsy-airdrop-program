@@ -3,7 +3,6 @@ use anchor_spl::token_interface::Mint;
 
 use crate::{
     airdrop::{AirdropInitArgs, AirdropInitData},
-    constants::MUTABLE_NONE,
     error::ErrorCode,
     utils::{validate_airdrop_inputs, validate_mint},
 };
@@ -44,15 +43,14 @@ pub fn prepare_airdrop_data(
     let ends = args.ends_at.unwrap_or(starts + default_duration);
     let merkle_root = args.merkle_root.unwrap_or([0u8; 32]);
     let version = args.version.unwrap_or(0);
-    let mutable = args.mutable.unwrap_or(MUTABLE_NONE);
 
-    validate_airdrop_inputs(starts, ends, version, minimum_duration, mutable)?;
+    validate_airdrop_inputs(starts, ends, version, minimum_duration)?;
 
     Ok(AirdropInitData {
+        id: args.id,
         starts_at: starts,
         ends_at: ends,
         version,
         merkle_root,
-        mutable,
     })
 }

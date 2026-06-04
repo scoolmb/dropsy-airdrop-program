@@ -6,7 +6,7 @@ pub struct AirdropMaster {
     pub creator: Pubkey,
     pub authority: Pubkey,
     pub treasury: Pubkey,
-
+    pub created_airdrops: u64,
     pub points: u64,
     pub total_claim_count: u64,
     pub monetized_claim_quota: u64,
@@ -26,7 +26,7 @@ pub struct AirdropMaster {
 }
 
 impl AirdropMaster {
-    pub const LEN: usize = 8 + 32 * 3 + 8 * 9 + 8; // last 8 bytes includes bump + padding
+    pub const LEN: usize = 8 + 32 * 3 + 8 * 10 + 8; // last 8 bytes includes bump + padding
 
     pub fn init(
         &mut self,
@@ -38,7 +38,6 @@ impl AirdropMaster {
         self.creator = creator;
         self.authority = creator;
         self.treasury = treasury;
-
         self.airdrop_update_fee = args.airdrop_update_fee.unwrap_or(0);
         self.airdrop_creation_fee = args.airdrop_creation_fee.unwrap_or(0);
         self.airdrop_claim_fee = args.airdrop_claim_fee.unwrap_or(0);
@@ -46,6 +45,7 @@ impl AirdropMaster {
         self.bitmap_creation_fee = args.bitmap_creation_fee.unwrap_or(0);
 
         // default
+        self.created_airdrops = 0;
         self.points = 0;
         self.total_claim_count = 0;
         self.monetized_claim_quota = 100;

@@ -80,7 +80,7 @@ export function getBitmapAccountEncoder(): FixedSizeEncoder<BitmapAccountArgs> {
       ["authority", getAddressEncoder()],
       ["airdrop", getAddressEncoder()],
       ["total", getU32Encoder()],
-      ["claimedBitmap", fixEncoderSize(getBytesEncoder(), 8000)],
+      ["claimedBitmap", fixEncoderSize(getBytesEncoder(), 1000)],
       ["id", getU16Encoder()],
       ["version", getU8Encoder()],
       ["bump", getU8Encoder()],
@@ -96,7 +96,7 @@ export function getBitmapAccountDecoder(): FixedSizeDecoder<BitmapAccount> {
     ["authority", getAddressDecoder()],
     ["airdrop", getAddressDecoder()],
     ["total", getU32Decoder()],
-    ["claimedBitmap", fixDecoderSize(getBytesDecoder(), 8000)],
+    ["claimedBitmap", fixDecoderSize(getBytesDecoder(), 1000)],
     ["id", getU16Decoder()],
     ["version", getU8Decoder()],
     ["bump", getU8Decoder()],
@@ -169,5 +169,5 @@ export async function fetchAllMaybeBitmapAccount(
 }
 
 export function getBitmapAccountSize(): number {
-  return 8080;
+  return 1080;
 }

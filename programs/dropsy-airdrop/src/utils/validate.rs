@@ -1,5 +1,5 @@
 use crate::{
-    constants::{MUTABLE_FULLY, PERMISSION_FULLY, VERSION_BASIC, VERSION_VESTED},
+    constants::{VERSION_BASIC, VERSION_VESTED},
     error::ErrorCode,
     utils::now,
 };
@@ -107,19 +107,6 @@ pub fn validate_token_account(
     }
 
     Ok(())
-}
-
-pub fn validate_mutability(value: u8) -> Result<u8> {
-    require!(value & !MUTABLE_FULLY == 0, ErrorCode::InvalidMutability);
-    Ok(value)
-}
-
-pub fn validate_delegate_permissions(value: u8) -> Result<u8> {
-    require!(
-        value & !PERMISSION_FULLY == 0,
-        ErrorCode::InvalidDelegatePermission
-    );
-    Ok(value)
 }
 
 pub fn validate_version(version: u8) -> Result<()> {

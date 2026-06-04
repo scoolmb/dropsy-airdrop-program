@@ -54,6 +54,7 @@ export type AirdropMaster = {
   creator: Address;
   authority: Address;
   treasury: Address;
+  createdAirdrops: bigint;
   points: bigint;
   totalClaimCount: bigint;
   monetizedClaimQuota: bigint;
@@ -71,6 +72,7 @@ export type AirdropMasterArgs = {
   creator: Address;
   authority: Address;
   treasury: Address;
+  createdAirdrops: number | bigint;
   points: number | bigint;
   totalClaimCount: number | bigint;
   monetizedClaimQuota: number | bigint;
@@ -92,6 +94,7 @@ export function getAirdropMasterEncoder(): FixedSizeEncoder<AirdropMasterArgs> {
       ["creator", getAddressEncoder()],
       ["authority", getAddressEncoder()],
       ["treasury", getAddressEncoder()],
+      ["createdAirdrops", getU64Encoder()],
       ["points", getU64Encoder()],
       ["totalClaimCount", getU64Encoder()],
       ["monetizedClaimQuota", getU64Encoder()],
@@ -115,6 +118,7 @@ export function getAirdropMasterDecoder(): FixedSizeDecoder<AirdropMaster> {
     ["creator", getAddressDecoder()],
     ["authority", getAddressDecoder()],
     ["treasury", getAddressDecoder()],
+    ["createdAirdrops", getU64Decoder()],
     ["points", getU64Decoder()],
     ["totalClaimCount", getU64Decoder()],
     ["monetizedClaimQuota", getU64Decoder()],
@@ -195,5 +199,5 @@ export async function fetchAllMaybeAirdropMaster(
 }
 
 export function getAirdropMasterSize(): number {
-  return 184;
+  return 192;
 }

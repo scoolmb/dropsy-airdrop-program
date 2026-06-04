@@ -21,6 +21,8 @@ import {
   getProgramDerivedAddress,
   getStructDecoder,
   getStructEncoder,
+  getU64Decoder,
+  getU64Encoder,
   getU8Decoder,
   getU8Encoder,
   transformEncoder,
@@ -109,36 +111,33 @@ export type CreateAirdropInstruction<
 
 export type CreateAirdropInstructionData = {
   discriminator: ReadonlyUint8Array;
+  id: bigint;
   merkleRoot: Option<ReadonlyUint8Array>;
   startsAt: Option<bigint>;
   endsAt: Option<bigint>;
   version: Option<number>;
-  mutable: Option<number>;
   delegateAuthority: Option<Address>;
-  delegatePermissions: Option<number>;
 };
 
 export type CreateAirdropInstructionDataArgs = {
+  id: number | bigint;
   merkleRoot: OptionOrNullable<ReadonlyUint8Array>;
   startsAt: OptionOrNullable<number | bigint>;
   endsAt: OptionOrNullable<number | bigint>;
   version: OptionOrNullable<number>;
-  mutable: OptionOrNullable<number>;
   delegateAuthority: OptionOrNullable<Address>;
-  delegatePermissions: OptionOrNullable<number>;
 };
 
 export function getCreateAirdropInstructionDataEncoder(): Encoder<CreateAirdropInstructionDataArgs> {
   return transformEncoder(
     getStructEncoder([
       ["discriminator", fixEncoderSize(getBytesEncoder(), 8)],
+      ["id", getU64Encoder()],
       ["merkleRoot", getOptionEncoder(fixEncoderSize(getBytesEncoder(), 32))],
       ["startsAt", getOptionEncoder(getI64Encoder())],
       ["endsAt", getOptionEncoder(getI64Encoder())],
       ["version", getOptionEncoder(getU8Encoder())],
-      ["mutable", getOptionEncoder(getU8Encoder())],
       ["delegateAuthority", getOptionEncoder(getAddressEncoder())],
-      ["delegatePermissions", getOptionEncoder(getU8Encoder())],
     ]),
     (value) => ({ ...value, discriminator: CREATE_AIRDROP_DISCRIMINATOR }),
   );
@@ -147,13 +146,12 @@ export function getCreateAirdropInstructionDataEncoder(): Encoder<CreateAirdropI
 export function getCreateAirdropInstructionDataDecoder(): Decoder<CreateAirdropInstructionData> {
   return getStructDecoder([
     ["discriminator", fixDecoderSize(getBytesDecoder(), 8)],
+    ["id", getU64Decoder()],
     ["merkleRoot", getOptionDecoder(fixDecoderSize(getBytesDecoder(), 32))],
     ["startsAt", getOptionDecoder(getI64Decoder())],
     ["endsAt", getOptionDecoder(getI64Decoder())],
     ["version", getOptionDecoder(getU8Decoder())],
-    ["mutable", getOptionDecoder(getU8Decoder())],
     ["delegateAuthority", getOptionDecoder(getAddressDecoder())],
-    ["delegatePermissions", getOptionDecoder(getU8Decoder())],
   ]);
 }
 
@@ -183,17 +181,16 @@ export type CreateAirdropAsyncInput<
   airdropMaster?: Address<TAccountAirdropMaster>;
   treasury: Address<TAccountTreasury>;
   masterCreator: Address<TAccountMasterCreator>;
-  airdrop?: Address<TAccountAirdrop>;
+  airdrop: Address<TAccountAirdrop>;
   mint: Address<TAccountMint>;
   authority: TransactionSigner<TAccountAuthority>;
   systemProgram?: Address<TAccountSystemProgram>;
+  id: CreateAirdropInstructionDataArgs["id"];
   merkleRoot: CreateAirdropInstructionDataArgs["merkleRoot"];
   startsAt: CreateAirdropInstructionDataArgs["startsAt"];
   endsAt: CreateAirdropInstructionDataArgs["endsAt"];
   version: CreateAirdropInstructionDataArgs["version"];
-  mutable: CreateAirdropInstructionDataArgs["mutable"];
   delegateAuthority: CreateAirdropInstructionDataArgs["delegateAuthority"];
-  delegatePermissions: CreateAirdropInstructionDataArgs["delegatePermissions"];
 };
 
 export async function getCreateAirdropInstructionAsync<
@@ -287,18 +284,6 @@ export async function getCreateAirdropInstructionAsync<
       ],
     });
   }
-  if (!accounts.airdrop.value) {
-    accounts.airdrop.value = await getProgramDerivedAddress({
-      programAddress,
-      seeds: [
-        getBytesEncoder().encode(
-          new Uint8Array([97, 105, 114, 100, 114, 111, 112]),
-        ),
-        getAddressEncoder().encode(expectAddress(accounts.authority.value)),
-        getAddressEncoder().encode(expectAddress(accounts.mint.value)),
-      ],
-    });
-  }
   if (!accounts.systemProgram.value) {
     accounts.systemProgram.value =
       "11111111111111111111111111111111" as Address<"11111111111111111111111111111111">;
@@ -355,13 +340,12 @@ export type CreateAirdropInput<
   mint: Address<TAccountMint>;
   authority: TransactionSigner<TAccountAuthority>;
   systemProgram?: Address<TAccountSystemProgram>;
+  id: CreateAirdropInstructionDataArgs["id"];
   merkleRoot: CreateAirdropInstructionDataArgs["merkleRoot"];
   startsAt: CreateAirdropInstructionDataArgs["startsAt"];
   endsAt: CreateAirdropInstructionDataArgs["endsAt"];
   version: CreateAirdropInstructionDataArgs["version"];
-  mutable: CreateAirdropInstructionDataArgs["mutable"];
   delegateAuthority: CreateAirdropInstructionDataArgs["delegateAuthority"];
-  delegatePermissions: CreateAirdropInstructionDataArgs["delegatePermissions"];
 };
 
 export function getCreateAirdropInstruction<

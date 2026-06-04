@@ -37,6 +37,7 @@ import {
 import { DROPSY_AIRDROP_PROGRAM_ADDRESS } from "../programs";
 import {
   expectAddress,
+  expectSome,
   getAccountMetaFactory,
   type ResolvedAccount,
 } from "../shared";
@@ -101,15 +102,20 @@ export type DepositTokensInstruction<
 export type DepositTokensInstructionData = {
   discriminator: ReadonlyUint8Array;
   amount: bigint;
+  airdropId: bigint;
 };
 
-export type DepositTokensInstructionDataArgs = { amount: number | bigint };
+export type DepositTokensInstructionDataArgs = {
+  amount: number | bigint;
+  airdropId: number | bigint;
+};
 
 export function getDepositTokensInstructionDataEncoder(): FixedSizeEncoder<DepositTokensInstructionDataArgs> {
   return transformEncoder(
     getStructEncoder([
       ["discriminator", fixEncoderSize(getBytesEncoder(), 8)],
       ["amount", getU64Encoder()],
+      ["airdropId", getU64Encoder()],
     ]),
     (value) => ({ ...value, discriminator: DEPOSIT_TOKENS_DISCRIMINATOR }),
   );
@@ -119,6 +125,7 @@ export function getDepositTokensInstructionDataDecoder(): FixedSizeDecoder<Depos
   return getStructDecoder([
     ["discriminator", fixDecoderSize(getBytesDecoder(), 8)],
     ["amount", getU64Decoder()],
+    ["airdropId", getU64Decoder()],
   ]);
 }
 
@@ -151,6 +158,7 @@ export type DepositTokensAsyncInput<
   associatedTokenProgram?: Address<TAccountAssociatedTokenProgram>;
   systemProgram?: Address<TAccountSystemProgram>;
   amount: DepositTokensInstructionDataArgs["amount"];
+  airdropId: DepositTokensInstructionDataArgs["airdropId"];
 };
 
 export async function getDepositTokensInstructionAsync<
@@ -227,6 +235,7 @@ export async function getDepositTokensInstructionAsync<
         ),
         getAddressEncoder().encode(expectAddress(accounts.authority.value)),
         getAddressEncoder().encode(expectAddress(accounts.mint.value)),
+        getU64Encoder().encode(expectSome(args.airdropId)),
       ],
     });
   }
@@ -302,6 +311,7 @@ export type DepositTokensInput<
   associatedTokenProgram?: Address<TAccountAssociatedTokenProgram>;
   systemProgram?: Address<TAccountSystemProgram>;
   amount: DepositTokensInstructionDataArgs["amount"];
+  airdropId: DepositTokensInstructionDataArgs["airdropId"];
 };
 
 export function getDepositTokensInstruction<

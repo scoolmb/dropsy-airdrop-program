@@ -20,6 +20,8 @@ import {
   getU16Encoder,
   getU32Decoder,
   getU32Encoder,
+  getU64Decoder,
+  getU64Encoder,
   transformEncoder,
   type AccountMeta,
   type AccountSignerMeta,
@@ -111,9 +113,14 @@ export type CreateBitmapInstructionData = {
   discriminator: ReadonlyUint8Array;
   id: number;
   total: number;
+  airdropId: bigint;
 };
 
-export type CreateBitmapInstructionDataArgs = { id: number; total: number };
+export type CreateBitmapInstructionDataArgs = {
+  id: number;
+  total: number;
+  airdropId: number | bigint;
+};
 
 export function getCreateBitmapInstructionDataEncoder(): FixedSizeEncoder<CreateBitmapInstructionDataArgs> {
   return transformEncoder(
@@ -121,6 +128,7 @@ export function getCreateBitmapInstructionDataEncoder(): FixedSizeEncoder<Create
       ["discriminator", fixEncoderSize(getBytesEncoder(), 8)],
       ["id", getU16Encoder()],
       ["total", getU32Encoder()],
+      ["airdropId", getU64Encoder()],
     ]),
     (value) => ({ ...value, discriminator: CREATE_BITMAP_DISCRIMINATOR }),
   );
@@ -131,6 +139,7 @@ export function getCreateBitmapInstructionDataDecoder(): FixedSizeDecoder<Create
     ["discriminator", fixDecoderSize(getBytesDecoder(), 8)],
     ["id", getU16Decoder()],
     ["total", getU32Decoder()],
+    ["airdropId", getU64Decoder()],
   ]);
 }
 
@@ -168,6 +177,7 @@ export type CreateBitmapAsyncInput<
   systemProgram?: Address<TAccountSystemProgram>;
   id: CreateBitmapInstructionDataArgs["id"];
   total: CreateBitmapInstructionDataArgs["total"];
+  airdropId: CreateBitmapInstructionDataArgs["airdropId"];
 };
 
 export async function getCreateBitmapInstructionAsync<
@@ -274,6 +284,7 @@ export async function getCreateBitmapInstructionAsync<
         ),
         getAddressEncoder().encode(expectAddress(accounts.authority.value)),
         getAddressEncoder().encode(expectAddress(accounts.mint.value)),
+        getU64Encoder().encode(expectSome(args.airdropId)),
       ],
     });
   }
@@ -349,6 +360,7 @@ export type CreateBitmapInput<
   systemProgram?: Address<TAccountSystemProgram>;
   id: CreateBitmapInstructionDataArgs["id"];
   total: CreateBitmapInstructionDataArgs["total"];
+  airdropId: CreateBitmapInstructionDataArgs["airdropId"];
 };
 
 export function getCreateBitmapInstruction<

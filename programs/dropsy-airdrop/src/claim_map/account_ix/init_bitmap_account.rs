@@ -37,7 +37,8 @@ pub struct BaseStruct<'info> {
 #[derive(Accounts)]
 #[instruction(
     id: u16, 
-    total: u32, 
+    total: u32,     
+    airdrop_id: u64,
     //version: u8,
 )]
 pub struct InitialisedBitmap<'info> {
@@ -59,9 +60,9 @@ pub struct InitialisedBitmap<'info> {
         mut,
         seeds = [
             AIRDROP_SEED, 
-              authority.key().as_ref(),
+            authority.key().as_ref(),
             mint.key().as_ref(), 
-        
+            &airdrop_id.to_le_bytes(),
         ],
         bump,
         has_one = authority @ ErrorCode::InvalidOwner,

@@ -10,7 +10,7 @@ pub mod utils;
 use airdrop::*;
 use claim_map::*;
 
-declare_id!("BWd3s27cPuinNkZYqZvRbdfvpGyP9ff5rJZk4WhuNwDw");
+declare_id!("3b97gLF94DDpa7sJQ8orbE3Ab6JQWBsDQTdQ5azoZqcz");
 
 #[program]
 pub mod dropsy_airdrop {
@@ -33,16 +33,21 @@ pub mod dropsy_airdrop {
         airdrop::instruction::init_airdrop(ctx, args)
     }
 
-    pub fn deposit_tokens(ctx: Context<DepositTokens>, amount: u64) -> Result<()> {
-        airdrop::instruction::deposit_tokens(ctx, amount)
+    pub fn deposit_tokens(ctx: Context<DepositTokens>, amount: u64, airdrop_id: u64) -> Result<()> {
+        airdrop::instruction::deposit_tokens(ctx, amount, airdrop_id)
     }
 
     pub fn claim_airdrop(ctx: Context<ClaimTokens>, args: AirdropClaimArgs) -> Result<()> {
         airdrop::instruction::claim_tokens(ctx, args)
     }
 
-    pub fn create_bitmap(ctx: Context<InitialisedBitmap>, id: u16, total: u32) -> Result<()> {
-        claim_map::instruction::init_bitmap(ctx, id, total)
+    pub fn create_bitmap(
+        ctx: Context<InitialisedBitmap>,
+        id: u16,
+        total: u32,
+        airdrop_id: u64,
+    ) -> Result<()> {
+        claim_map::instruction::init_bitmap(ctx, id, total, airdrop_id)
     }
 
     /*pub fn redeem_tokens(ctx: Context<RedeemedTokens>) -> Result<()> {

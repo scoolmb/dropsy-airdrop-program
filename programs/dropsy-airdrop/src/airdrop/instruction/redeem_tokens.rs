@@ -21,6 +21,7 @@ pub fn redeem_tokens(ctx: Context<RedeemedTokens>) -> Result<()> {
         AIRDROP_SEED,
         mint_key.as_ref(),
         authority_key.as_ref(),
+        &airdrop.id.to_le_bytes(),
         &[bump],
     ]];
 

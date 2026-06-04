@@ -2,8 +2,8 @@ use crate::airdrop::{Airdrop, AirdropClaimArgs};
 use crate::constants::{BITMAP_SEED, MAX_BITMAP_CLAIM, VERSION_VESTED};
 use crate::error::ErrorCode;
 use crate::utils::{
-    calculate_bitmap_id, calculate_vested_bitmap_id, now, validate_mutability, validate_timing,
-    validate_version, verify_merkle_proof,
+    calculate_bitmap_id, calculate_vested_bitmap_id, now, validate_timing, validate_version,
+    verify_merkle_proof,
 };
 use anchor_lang::prelude::*;
 
@@ -21,9 +21,7 @@ pub fn validate_airdrop_inputs(
     ends_time: i64,
     version: u8,
     minimum_duration: i64,
-    mutable: u8,
 ) -> Result<()> {
-    validate_mutability(mutable)?;
     validate_timing(starts_time, ends_time, minimum_duration)?;
     validate_version(version)?;
 

@@ -76,7 +76,8 @@ pub struct ClaimTokens<'info> {
         seeds = [
             AIRDROP_SEED, 
             authority.key().as_ref(),
-            claim_base.mint.key().as_ref(), 
+            claim_base.mint.key().as_ref(),
+            &args.airdrop_id.to_le_bytes() 
         ],
         bump,
         has_one = authority @ ErrorCode::InvalidOwner,

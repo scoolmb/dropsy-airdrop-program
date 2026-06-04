@@ -6,6 +6,7 @@ use crate::{airdrop::{Airdrop}, constants::{ AIRDROP_SEED}, error::ErrorCode};
 #[derive(Accounts)]
 #[instruction(
     amount: u64,
+    airdrop_id: u64,
 )]
 pub struct DepositTokens<'info> {
     #[account(mut)]
@@ -27,6 +28,7 @@ pub struct DepositTokens<'info> {
             AIRDROP_SEED, 
             authority.key().as_ref(),
             mint.key().as_ref(), 
+            &airdrop_id.to_le_bytes(),
         ],
         bump,
         has_one = authority @ ErrorCode::InvalidOwner,

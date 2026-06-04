@@ -59,7 +59,7 @@ export type InitializeAirdropConfigInstruction<
   TAccountConfig extends string | AccountMeta<string> = string,
   TAccountProtocolTreasury extends string | AccountMeta<string> = string,
   TAccountAuthority extends string | AccountMeta<string> =
-    "79xcTj8QDPhqg7Bwvoz9CrckmGyo2JJXU9duVqJbCLxc",
+    "5gB7WLoBWELAvRDYPUvGj7e7BHEv65j6YDhissdMTQ4F",
   TAccountSystemProgram extends string | AccountMeta<string> =
     "11111111111111111111111111111111",
   TRemainingAccounts extends readonly AccountMeta<string>[] = [],
@@ -241,7 +241,7 @@ export async function getInitializeAirdropConfigInstructionAsync<
   }
   if (!accounts.authority.value) {
     accounts.authority.value =
-      "79xcTj8QDPhqg7Bwvoz9CrckmGyo2JJXU9duVqJbCLxc" as Address<"79xcTj8QDPhqg7Bwvoz9CrckmGyo2JJXU9duVqJbCLxc">;
+      "5gB7WLoBWELAvRDYPUvGj7e7BHEv65j6YDhissdMTQ4F" as Address<"5gB7WLoBWELAvRDYPUvGj7e7BHEv65j6YDhissdMTQ4F">;
   }
   if (!accounts.systemProgram.value) {
     accounts.systemProgram.value =
@@ -337,7 +337,7 @@ export function getInitializeAirdropConfigInstruction<
   // Resolve default values.
   if (!accounts.authority.value) {
     accounts.authority.value =
-      "79xcTj8QDPhqg7Bwvoz9CrckmGyo2JJXU9duVqJbCLxc" as Address<"79xcTj8QDPhqg7Bwvoz9CrckmGyo2JJXU9duVqJbCLxc">;
+      "5gB7WLoBWELAvRDYPUvGj7e7BHEv65j6YDhissdMTQ4F" as Address<"5gB7WLoBWELAvRDYPUvGj7e7BHEv65j6YDhissdMTQ4F">;
   }
   if (!accounts.systemProgram.value) {
     accounts.systemProgram.value =

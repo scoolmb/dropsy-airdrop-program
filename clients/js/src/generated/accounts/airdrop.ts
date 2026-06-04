@@ -58,13 +58,12 @@ export type Airdrop = {
   mint: Address;
   delegateAuthority: Address;
   merkleRoot: ReadonlyUint8Array;
+  id: bigint;
   supply: bigint;
   boost: bigint;
   startsAt: bigint;
   endsAt: bigint;
   bitmapCount: number;
-  delegatePermissions: number;
-  mutable: number;
   state: number;
   version: number;
   bump: number;
@@ -77,13 +76,12 @@ export type AirdropArgs = {
   mint: Address;
   delegateAuthority: Address;
   merkleRoot: ReadonlyUint8Array;
+  id: number | bigint;
   supply: number | bigint;
   boost: number | bigint;
   startsAt: number | bigint;
   endsAt: number | bigint;
   bitmapCount: number;
-  delegatePermissions: number;
-  mutable: number;
   state: number;
   version: number;
   bump: number;
@@ -100,17 +98,16 @@ export function getAirdropEncoder(): FixedSizeEncoder<AirdropArgs> {
       ["mint", getAddressEncoder()],
       ["delegateAuthority", getAddressEncoder()],
       ["merkleRoot", fixEncoderSize(getBytesEncoder(), 32)],
+      ["id", getU64Encoder()],
       ["supply", getU64Encoder()],
       ["boost", getU64Encoder()],
       ["startsAt", getI64Encoder()],
       ["endsAt", getI64Encoder()],
       ["bitmapCount", getU16Encoder()],
-      ["delegatePermissions", getU8Encoder()],
-      ["mutable", getU8Encoder()],
       ["state", getU8Encoder()],
       ["version", getU8Encoder()],
       ["bump", getU8Encoder()],
-      ["padding", fixEncoderSize(getBytesEncoder(), 1)],
+      ["padding", fixEncoderSize(getBytesEncoder(), 3)],
     ]),
     (value) => ({ ...value, discriminator: AIRDROP_DISCRIMINATOR }),
   );
@@ -125,17 +122,16 @@ export function getAirdropDecoder(): FixedSizeDecoder<Airdrop> {
     ["mint", getAddressDecoder()],
     ["delegateAuthority", getAddressDecoder()],
     ["merkleRoot", fixDecoderSize(getBytesDecoder(), 32)],
+    ["id", getU64Decoder()],
     ["supply", getU64Decoder()],
     ["boost", getU64Decoder()],
     ["startsAt", getI64Decoder()],
     ["endsAt", getI64Decoder()],
     ["bitmapCount", getU16Decoder()],
-    ["delegatePermissions", getU8Decoder()],
-    ["mutable", getU8Decoder()],
     ["state", getU8Decoder()],
     ["version", getU8Decoder()],
     ["bump", getU8Decoder()],
-    ["padding", fixDecoderSize(getBytesDecoder(), 1)],
+    ["padding", fixDecoderSize(getBytesDecoder(), 3)],
   ]);
 }
 
@@ -198,5 +194,5 @@ export async function fetchAllMaybeAirdrop(
 }
 
 export function getAirdropSize(): number {
-  return 208;
+  return 216;
 }

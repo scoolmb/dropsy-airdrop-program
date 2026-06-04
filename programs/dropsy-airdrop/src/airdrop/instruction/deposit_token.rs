@@ -5,7 +5,7 @@ use crate::utils::{
 };
 use anchor_lang::prelude::*;
 
-pub fn deposit_tokens(ctx: Context<DepositTokens>, amount: u64) -> Result<()> {
+pub fn deposit_tokens(ctx: Context<DepositTokens>, amount: u64, airdrop_id: u64) -> Result<()> {
     let mut airdrop = ctx.accounts.airdrop.load_mut()?;
     let current_time = now()?;
     let ends_at = airdrop.ends_at;
