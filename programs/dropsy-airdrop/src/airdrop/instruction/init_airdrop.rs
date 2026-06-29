@@ -5,6 +5,7 @@ use crate::utils::{
     emit_initalized_airdrop, prepare_airdrop_data, process_fee_recipients,
     validate_master_treasury, FeeRecipient,
 };
+
 use anchor_lang::prelude::*;
 
 pub fn init_airdrop(ctx: Context<InitializedAirdrop>, args: AirdropInitArgs) -> Result<()> {
@@ -43,12 +44,12 @@ pub fn init_airdrop(ctx: Context<InitializedAirdrop>, args: AirdropInitArgs) -> 
         },
     ];
 
-    process_fee_recipients(
+    /*process_fee_recipients(
         &ctx.accounts.authority.to_account_info(),
         &ctx.accounts.system_program.to_account_info(),
         airdrop_master.airdrop_creation_fee,
         recipients,
-    )?;
+    )?;*/
 
     airdrop.init(
         ctx.accounts.base.airdrop_master.key(),
