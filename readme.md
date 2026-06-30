@@ -1,6 +1,6 @@
 # Dropsy Airdrop Program
 
-> Building a more transparent and community-driven airdrop infrastructure for Solana.
+> Building a more transparent and community-driven airdrop infrastructure for Solana. Easy, Trustless and Transparent .
 
 ## Why Open Source?
 
