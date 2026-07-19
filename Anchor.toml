@@ -15,7 +15,7 @@ dropsy_airdrop = "3b97gLF94DDpa7sJQ8orbE3Ab6JQWBsDQTdQ5azoZqcz"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "devnet"
+cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
