@@ -103,11 +103,8 @@ pub fn process_fees<'info>(
 pub fn process_fee_recipients<'info>(
     payer: &AccountInfo<'info>,
     system_program: &AccountInfo<'info>,
-    _total_fee: u64,
     recipients: Vec<FeeRecipient<'info>>,
 ) -> Result<()> {
-    let mut total_allocated: u64 = 0;
-
     for recipient in recipients {
         if recipient.allocation == 0 {
             continue;
@@ -120,14 +117,7 @@ pub fn process_fee_recipients<'info>(
             None,
             recipient.allocation,
         )?;
-
-        total_allocated = total_allocated
-            .checked_add(recipient.allocation)
-            .ok_or(ErrorCode::Overflow)?;
     }
-
-    // Strict validation — everything must match exactly
-    //require!(total_allocated == total_fee, ErrorCode::InvalidAllocation);
 
     Ok(())
 }

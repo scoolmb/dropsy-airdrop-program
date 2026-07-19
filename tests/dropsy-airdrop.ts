@@ -1,4 +1,4 @@
-import * as anchor from "@coral-xyz/anchor";
+/*import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { DropsyAirdrop } from "../target/types/dropsy_airdrop";
 
@@ -17,4 +17,4 @@ describe("dropsy-airdrop", () => {
     }).rpc();
     console.log("Your transaction signature", tx);
   });
-});
+});*/

@@ -1,7 +1,7 @@
 use crate::{
     airdrop::{InitializedAirdropMaster, MasterAirdropInitArgs},
-    error::ErrorCode,
-    utils::{process_fees, validate_master_treasury, verify_discount_proof},
+    //error::ErrorCode,
+    utils::{validate_master_treasury, verify_discount_proof},
 };
 use anchor_lang::prelude::*;
 
@@ -11,9 +11,9 @@ pub fn init_airdrop_master(
 ) -> Result<()> {
     let mut airdrop_master = ctx.accounts.airdrop_master.load_init()?;
     let airdrop_config = ctx.accounts.config.load()?;
-    let affiliate_info = ctx.accounts.affiliate.as_ref().map(|a| a.as_ref());
-    let mut total_fee = airdrop_config.airdrop_master_create_fee;
-    let affiliate_percentage = 5;
+    //let affiliate_info = ctx.accounts.affiliate.as_ref().map(|a| a.as_ref());
+    //let mut total_fee = airdrop_config.airdrop_master_create_fee;
+    //let affiliate_percentage = 5;
 
     validate_master_treasury(
         ctx.accounts.protocol_treasury.key(),
@@ -25,7 +25,7 @@ pub fn init_airdrop_master(
     if let Some(proof) = args.discount_proof.as_ref() {
         if verify_discount_proof(ctx.accounts.creator.key(), airdrop_config.wl_root, proof) {
             // 50% discount
-            total_fee = total_fee.checked_div(2).ok_or(ErrorCode::Overflow)?;
+            //total_fee = total_fee.checked_div(2).ok_or(ErrorCode::Overflow)?;
         }
     }
 

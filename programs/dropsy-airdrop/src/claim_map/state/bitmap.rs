@@ -1,4 +1,4 @@
-use crate::{constants::BITMAP_SIZE, error::ErrorCode};
+use crate::constants::BITMAP_SIZE;
 use anchor_lang::prelude::*;
 
 #[account(zero_copy)]

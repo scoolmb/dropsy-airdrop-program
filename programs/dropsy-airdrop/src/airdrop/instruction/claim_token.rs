@@ -67,29 +67,24 @@ pub fn claim_tokens(ctx: Context<ClaimTokens>, args: AirdropClaimArgs) -> Result
         decimals,
     )?;
 
-    let master_share = airdrop_master.airdrop_claim_fee / 2;
-    let protocol_share = airdrop_master
-        .airdrop_claim_fee
-        .checked_sub(master_share)
-        .ok_or(ErrorCode::Overflow)?;
+    //let total_fee = airdrop_master.airdrop_claim_fee + airdrop_config.protocol_fee;
 
-    let recipients: Vec<FeeRecipient> = vec![
+    /*let recipients: Vec<FeeRecipient> = vec![
         FeeRecipient {
             account: ctx.accounts.base.treasury.to_account_info(),
-            allocation: master_share,
+            allocation: airdrop_master.airdrop_claim_fee,
         },
         FeeRecipient {
             account: ctx.accounts.base.protocol_treasury.to_account_info(),
-            allocation: protocol_share,
+            allocation: airdrop_config.protocol_fee,
         },
-    ];
+    ];*/
 
-    process_fee_recipients(
+    /*process_fee_recipients(
         &ctx.accounts.claim_base.claimer.to_account_info(),
         &ctx.accounts.claim_base.system_program.to_account_info(),
-        airdrop_master.airdrop_claim_fee,
         recipients,
-    )?;
+    )?;*/
 
     msg!(
         "{} Tokens claimed successfully by {}",

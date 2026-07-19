@@ -1,10 +1,6 @@
 use crate::airdrop::{AirdropInitArgs, InitializedAirdrop};
 
-use crate::error::ErrorCode;
-use crate::utils::{
-    emit_initalized_airdrop, prepare_airdrop_data, process_fee_recipients,
-    validate_master_treasury, FeeRecipient,
-};
+use crate::utils::{emit_initalized_airdrop, prepare_airdrop_data, validate_master_treasury};
 
 use anchor_lang::prelude::*;
 
@@ -12,7 +8,7 @@ pub fn init_airdrop(ctx: Context<InitializedAirdrop>, args: AirdropInitArgs) -> 
     let airdrop_master = ctx.accounts.base.airdrop_master.load()?;
     let airdrop_config = ctx.accounts.base.airdrop_config.load()?;
     let mut airdrop = ctx.accounts.airdrop.load_init()?;
-    let treasury_info = ctx.accounts.base.treasury.to_account_info();
+    //let treasury_info = ctx.accounts.base.treasury.to_account_info();
 
     validate_master_treasury(ctx.accounts.base.treasury.key(), airdrop_master.treasury)?;
     validate_master_treasury(
@@ -27,13 +23,7 @@ pub fn init_airdrop(ctx: Context<InitializedAirdrop>, args: AirdropInitArgs) -> 
         airdrop_config.max_airdrop_duration,
     )?;
 
-    let master_share = airdrop_master.airdrop_creation_fee / 2;
-    let protocol_share = airdrop_master
-        .airdrop_creation_fee
-        .checked_sub(master_share)
-        .ok_or(ErrorCode::Overflow)?;
-
-    let recipients: Vec<FeeRecipient> = vec![
+    /*let recipients: Vec<FeeRecipient> = vec![
         FeeRecipient {
             account: treasury_info,
             allocation: master_share,
@@ -42,7 +32,7 @@ pub fn init_airdrop(ctx: Context<InitializedAirdrop>, args: AirdropInitArgs) -> 
             account: ctx.accounts.base.protocol_treasury.to_account_info(),
             allocation: protocol_share,
         },
-    ];
+    ];*/
 
     /*process_fee_recipients(
         &ctx.accounts.authority.to_account_info(),
