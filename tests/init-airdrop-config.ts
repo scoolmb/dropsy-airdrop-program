@@ -69,14 +69,14 @@ describe("Airdrop - Init Config", () => {
     protocolTreasury = new PublicKey("3CZmTu4u4JmU7dyYLeMo3pC2Gqm6DDfWkphshFA8vKpq");
 
   // Helper function to create mint account (simplified)
-  async function createMint() {
+  /*async function createMint() {
     // In real tests, you'd use spl-token to create a real mint
     // For this example, we assume mint already exists
     return mint.publicKey;
-  }
+  }*/
 
   describe(" Failure Cases", () => {
-    it("Shouldn't initialize AirdropConfig with invalid Admin", async () => {
+    it("Shouldn't initialize AirdropConfig with unauthorized Admin", async () => {
 
       console.log("start initAirdropConfig test:");
       const initArgs : any = {

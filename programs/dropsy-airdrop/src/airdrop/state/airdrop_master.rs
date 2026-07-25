@@ -14,17 +14,17 @@ pub struct AirdropMaster {
     pub airdrop_update_fee: u64,
     pub airdrop_creation_fee: u64,
     pub airdrop_claim_fee: u64,
-    pub airdrop_delegate_fee: u64,
 
     // Bitmap Features fees
     pub bitmap_creation_fee: u64,
 
     pub bump: u8,
-    pub _padding: [u8; 7], // alignement
+    pub _padding: [u8; 7],   // alignement
+    pub reserved: [u8; 128], // 128 bytes of reserved for future upgrades
 }
 
 impl AirdropMaster {
-    pub const LEN: usize = 8 + 32 * 3 + 8 * 8 + 8; // last 8 bytes includes bump + padding
+    pub const LEN: usize = 8 + 32 * 3 + 8 * 7 + 8; // last 8 bytes includes bump + padding
 
     pub fn init(
         &mut self,
@@ -39,7 +39,6 @@ impl AirdropMaster {
         self.airdrop_update_fee = args.airdrop_update_fee.unwrap_or(0);
         self.airdrop_creation_fee = args.airdrop_creation_fee.unwrap_or(0);
         self.airdrop_claim_fee = args.airdrop_claim_fee.unwrap_or(0);
-        self.airdrop_delegate_fee = args.airdrop_delegate_fee.unwrap_or(0);
         self.bitmap_creation_fee = args.bitmap_creation_fee.unwrap_or(0);
 
         // default
@@ -49,5 +48,6 @@ impl AirdropMaster {
 
         self.bump = bump;
         self._padding = [0u8; 7];
+        self.reserved = [0u8; 128];
     }
 }

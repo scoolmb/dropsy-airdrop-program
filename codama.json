@@ -2,6 +2,10 @@
     "idl": "target/idl/dropsy_airdrop.json",
     "before": [],
     "scripts": {
+        "demo": {
+            "from": "@codama/renderers-demo",
+            "args": ["docs"]
+        },
         "js": {
             "from": "@codama/renderers-js",
             "args": [

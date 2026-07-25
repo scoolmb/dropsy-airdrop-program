@@ -8,7 +8,7 @@ pub fn init_bitmap(
     ctx: Context<InitialisedBitmap>,
     id: u16,
     total: u32,
-    //airdrop_id: u64,
+    airdrop_id: u64,
 ) -> Result<()> {
     let airdrop_config = ctx.accounts.base.airdrop_config.load()?;
     let airdrop_master = ctx.accounts.base.airdrop_master.load()?;

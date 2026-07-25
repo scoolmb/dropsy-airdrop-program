@@ -17,8 +17,9 @@ pub struct Airdrop {
     pub bitmap_count: u16,          // 2
     pub state: u8,                  // 1
     pub version: u8,                // 1
+    pub delegate_permissions: u8,   // 1
     pub bump: u8,                   // 1
-    pub _padding: [u8; 3],          // 3
+    pub _padding: [u8; 2],          // 2
 }
 
 impl Airdrop {
@@ -45,8 +46,9 @@ impl Airdrop {
         self.bitmap_count = 0;
         self.state = 0;
         self.version = data.version;
+        self.delegate_permissions = 0;
         self.bump = bump;
-        self._padding = [0u8; 3];
+        self._padding = [0u8; 2];
 
         Ok(())
     }

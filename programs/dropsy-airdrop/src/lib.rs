@@ -45,12 +45,12 @@ pub mod dropsy_airdrop {
         ctx: Context<InitialisedBitmap>,
         id: u16,
         total: u32,
-        //airdrop_id: u64,
+        airdrop_id: u64,
     ) -> Result<()> {
-        claim_map::instruction::init_bitmap(ctx, id, total)
+        claim_map::instruction::init_bitmap(ctx, id, total, airdrop_id)
     }
 
-    pub fn redeem_tokens(ctx: Context<RedeemedTokens>) -> Result<()> {
+    /*pub fn redeem_tokens(ctx: Context<RedeemedTokens>) -> Result<()> {
         airdrop::instruction::redeem_tokens(ctx)
-    }
+    }*/
 }

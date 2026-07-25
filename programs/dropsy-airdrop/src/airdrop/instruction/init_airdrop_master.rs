@@ -23,7 +23,11 @@ pub fn init_airdrop_master(
     args.validate(airdrop_config.max_claim_fee, airdrop_config.max_action_fee)?;
 
     if let Some(proof) = args.discount_proof.as_ref() {
-        if verify_discount_proof(ctx.accounts.creator.key(), airdrop_config.wl_root, proof) {
+        if verify_discount_proof(
+            ctx.accounts.master_creator.key(),
+            airdrop_config.wl_root,
+            proof,
+        ) {
             // 50% discount
             //total_fee = total_fee.checked_div(2).ok_or(ErrorCode::Overflow)?;
         }
@@ -44,7 +48,7 @@ pub fn init_airdrop_master(
     total_fee = total_fee.checked_div(2).ok_or(ErrorCode::Overflow)?;*/
 
     airdrop_master.init(
-        ctx.accounts.creator.key(),
+        ctx.accounts.master_creator.key(),
         ctx.accounts.treasury.key(),
         args,
         ctx.bumps.airdrop_master,

@@ -17,9 +17,9 @@ pub struct InitializedAirdropMaster<'info> {
 
     #[account(
         init,
-        payer = creator,
+        payer = master_creator,
         space = AirdropMaster::LEN,
-        seeds = [AIRDROP_MASTER_SEED, creator.key().as_ref()],
+        seeds = [AIRDROP_MASTER_SEED, master_creator.key().as_ref()],
         bump,
     )]
     pub airdrop_master: AccountLoader<'info, AirdropMaster>,
@@ -36,7 +36,7 @@ pub struct InitializedAirdropMaster<'info> {
     pub affiliate: Option<UncheckedAccount<'info>>,
 
     #[account(mut, signer)]
-    pub creator: Signer<'info>,
+    pub master_creator: Signer<'info>,
 
     pub system_program: Program<'info, System>,
 }
