@@ -6,10 +6,13 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-dropsy_airdrop = "3b97gLF94DDpa7sJQ8orbE3Ab6JQWBsDQTdQ5azoZqcz"
+dropsy_airdrop = "drophxkcW5TRfbMQgo45Yti3q8jVxuxvuNufMnu8WiE"
 
 [programs.devnet]
-dropsy_airdrop = "3b97gLF94DDpa7sJQ8orbE3Ab6JQWBsDQTdQ5azoZqcz"
+dropsy_airdrop = "drophxkcW5TRfbMQgo45Yti3q8jVxuxvuNufMnu8WiE"
+
+[programs.mainnet]
+dropsy_airdrop = "drophxkcW5TRfbMQgo45Yti3q8jVxuxvuNufMnu8WiE"
 
 [registry]
 url = "https://api.apr.dev"
@@ -20,3 +23,6 @@ wallet = "~/.config/solana/id.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 \"tests/**/*.ts\""
+
+[verifiable]
+docker_image = "rust:1.89.0"

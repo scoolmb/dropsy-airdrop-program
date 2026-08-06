@@ -24,7 +24,7 @@ pub struct AirdropMaster {
 }
 
 impl AirdropMaster {
-    pub const LEN: usize = 8 + 32 * 3 + 8 * 7 + 8; // last 8 bytes includes bump + padding
+    pub const LEN: usize = 8 + 32 * 3 + 8 * 7 + 8 + 128; // last 8 bytes includes bump + padding
 
     pub fn init(
         &mut self,

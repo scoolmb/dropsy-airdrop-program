@@ -27,5 +27,6 @@ anchor-spl = { version = "0.32.1", features = ["metadata"] }
 sha2 = "0.10.9"
 
 
+
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(target_os, values("solana"))'] }

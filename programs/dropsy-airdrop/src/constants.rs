@@ -12,7 +12,7 @@ pub const VESTING_SEED: &[u8] = b"vesting";
 pub const PRESALE_SEED: &[u8] = b"presale";
 pub const VAULT_SEED: &[u8] = b"vault";
 // pubKeys
-pub const ADMIN: Pubkey = pubkey!("5gB7WLoBWELAvRDYPUvGj7e7BHEv65j6YDhissdMTQ4F");
+pub const ADMIN: Pubkey = pubkey!("6TMmpVof9fGXak2VUgP4X9sXNfPHA7XWyi9ZMUCrHP6A");
 
 pub const MAX_BITMAP_CLAIM: u64 = BITMAP_SIZE as u64 * 8;
 pub const BITMAP_SIZE: usize = 1000;

@@ -10,7 +10,7 @@ pub mod utils;
 use airdrop::*;
 use claim_map::*;
 
-declare_id!("3b97gLF94DDpa7sJQ8orbE3Ab6JQWBsDQTdQ5azoZqcz");
+declare_id!("drophxkcW5TRfbMQgo45Yti3q8jVxuxvuNufMnu8WiE");
 
 #[program]
 pub mod dropsy_airdrop {
@@ -49,8 +49,4 @@ pub mod dropsy_airdrop {
     ) -> Result<()> {
         claim_map::instruction::init_bitmap(ctx, id, total, airdrop_id)
     }
-
-    /*pub fn redeem_tokens(ctx: Context<RedeemedTokens>) -> Result<()> {
-        airdrop::instruction::redeem_tokens(ctx)
-    }*/
 }

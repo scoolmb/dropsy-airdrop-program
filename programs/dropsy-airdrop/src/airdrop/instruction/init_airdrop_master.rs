@@ -1,6 +1,6 @@
+use crate::error::ErrorCode;
 use crate::{
     airdrop::{InitializedAirdropMaster, MasterAirdropInitArgs},
-    //error::ErrorCode,
     utils::{validate_master_treasury, verify_discount_proof},
 };
 use anchor_lang::prelude::*;
@@ -22,7 +22,7 @@ pub fn init_airdrop_master(
 
     args.validate(airdrop_config.max_claim_fee, airdrop_config.max_action_fee)?;
 
-    if let Some(proof) = args.discount_proof.as_ref() {
+    /*if let Some(proof) = args.discount_proof.as_ref() {
         if verify_discount_proof(
             ctx.accounts.master_creator.key(),
             airdrop_config.wl_root,
@@ -33,19 +33,23 @@ pub fn init_airdrop_master(
         }
     }
 
-    /*let proof = args
+    let proof = args
         .discount_proof
         .as_ref()
-        .ok_or(ErrorCode::MintMismatch)?;
+        .ok_or(ErrorCode::InvalidAdmin)?;
 
     // Verify discount proof
-    let is_valid = verify_discount_proof(ctx.accounts.creator.key(), airdrop_config.wl_root, proof);
+    let is_valid = verify_discount_proof(
+        ctx.accounts.master_creator.key(),
+        airdrop_config.wl_root,
+        proof,
+    );
     if !is_valid {
         return Err(ErrorCode::InvalidAdmin.into());
-    }
+    }*/
 
     // Apply discount (50%)
-    total_fee = total_fee.checked_div(2).ok_or(ErrorCode::Overflow)?;*/
+    //total_fee = total_fee.checked_div(2).ok_or(ErrorCode::Overflow)?;
 
     airdrop_master.init(
         ctx.accounts.master_creator.key(),
