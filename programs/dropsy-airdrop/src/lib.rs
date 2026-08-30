@@ -9,12 +9,12 @@ pub mod utils;
 
 use airdrop::*;
 use claim_map::*;
-use solana_security_txt::security_txt;
+//use solana_security_txt::security_txt;
 
 /*security_txt! {
     name: "Dropsy Airdrop",
     project_url: "https://dropsy.org",
-    contacts: "email:security@dropsy.org",
+    contacts: "scoolmabrouki@gmail.com",
     policy: "https://dropsy.org",
     preferred_languages: "en",
     source_code: "https://github.com",
