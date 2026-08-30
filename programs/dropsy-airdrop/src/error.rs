@@ -70,10 +70,14 @@ pub enum ErrorCode {
     InvalidDestinationOwner = 203,
     #[msg("Mismatched affiliate PDA")]
     InvalidAffiliatePda = 204,
-    #[msg("Not Authorized")]
+    #[msg("Not Authorized Access")]
     Unauthorized = 205,
     #[msg("Transaction sender is not the owner")]
     InvalidOwner = 206,
+    #[msg("This Wallet is not whitelisted for access")]
+    NotWhitelisted = 207,
+    #[msg("This Request Requires WL proof")]
+    WlProofNotProvided = 208,
 
     /* ---------------------------- */
     /*          Token Mint          */

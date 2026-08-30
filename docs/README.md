@@ -25,6 +25,7 @@ description: Overview of the Dropsy Airdrop Program
 - [Deposit Tokens](instructions/depositTokens.md)
 - [Initialize Airdrop Config](instructions/initializeAirdropConfig.md)
 - [Initialize Airdrop Master](instructions/initializeAirdropMaster.md)
+- [Update Airdrop Config](instructions/updateAirdropConfig.md)
 
 ## PDAs
 
@@ -32,6 +33,7 @@ _This program has no PDAs._
 
 ## Defined types
 
+- [Airdrop Config Init Args](definedTypes/airdropConfigInitArgs.md)
 - [Airdrop Initialized](definedTypes/airdropInitialized.md)
 - [Bitmap Closed](definedTypes/bitmapClosed.md)
 - [Bitmap Initialized](definedTypes/bitmapInitialized.md)

@@ -1,11 +1,12 @@
-use crate::airdrop::{AirdropInitArgs, InitializedAirdrop};
+use crate::airdrop::{AirdropInitArgs, AirdropMaster, InitializedAirdrop};
 
+use crate::error::ErrorCode;
 use crate::utils::{emit_initalized_airdrop, prepare_airdrop_data, validate_master_treasury};
 
 use anchor_lang::prelude::*;
 
 pub fn init_airdrop(ctx: Context<InitializedAirdrop>, args: AirdropInitArgs) -> Result<()> {
-    let airdrop_master = ctx.accounts.base.airdrop_master.load()?;
+    let mut airdrop_master = ctx.accounts.base.airdrop_master.load_mut()?;
     let airdrop_config = ctx.accounts.base.airdrop_config.load()?;
     let mut airdrop = ctx.accounts.airdrop.load_init()?;
     //let treasury_info = ctx.accounts.base.treasury.to_account_info();
@@ -40,6 +41,11 @@ pub fn init_airdrop(ctx: Context<InitializedAirdrop>, args: AirdropInitArgs) -> 
         airdrop_master.airdrop_creation_fee,
         recipients,
     )?;*/
+
+    airdrop_master.created_airdrops = airdrop_master
+        .created_airdrops
+        .checked_add(1)
+        .ok_or(ErrorCode::Overflow)?;
 
     airdrop.init(
         ctx.accounts.base.airdrop_master.key(),

@@ -12,3 +12,4 @@ export * from "./createBitmap";
 export * from "./depositTokens";
 export * from "./initializeAirdropConfig";
 export * from "./initializeAirdropMaster";
+export * from "./updateAirdropConfig";

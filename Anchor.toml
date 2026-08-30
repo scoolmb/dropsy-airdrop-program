@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-dropsy_airdrop = "drophxkcW5TRfbMQgo45Yti3q8jVxuxvuNufMnu8WiE"
+dropsy_airdrop = "3b97gLF94DDpa7sJQ8orbE3Ab6JQWBsDQTdQ5azoZqcz"
 
 [programs.devnet]
 dropsy_airdrop = "drophxkcW5TRfbMQgo45Yti3q8jVxuxvuNufMnu8WiE"

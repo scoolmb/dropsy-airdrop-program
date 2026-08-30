@@ -47,6 +47,7 @@ pub struct AirdropConfigInitArgs {
     pub update_grace_period: Option<i64>,
     pub protocol_fee: Option<u64>,
     pub master_fee_bps: Option<u16>,
+    pub protocol_treasury: Option<Pubkey>,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone)]

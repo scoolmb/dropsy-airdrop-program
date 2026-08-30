@@ -21,6 +21,7 @@ pub struct BaseAirdropInitStruct<'info> {
     pub protocol_treasury: UncheckedAccount<'info>,
 
      #[account(
+        mut,
         seeds = [AIRDROP_MASTER_SEED, master_creator.key().as_ref()],
         bump,
         has_one = treasury @ ErrorCode::InvalidTreasuryAccount,

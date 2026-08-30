@@ -22,6 +22,22 @@ pub fn init_airdrop_master(
 
     args.validate(airdrop_config.max_claim_fee, airdrop_config.max_action_fee)?;
 
+    let proof = args
+        .discount_proof
+        .as_ref()
+        .ok_or(ErrorCode::WlProofNotProvided)?;
+
+    // Verify whitelist access
+    let is_valid = verify_discount_proof(
+        ctx.accounts.master_creator.key(),
+        airdrop_config.wl_root,
+        proof,
+    );
+
+    if !is_valid {
+        return Err(ErrorCode::NotWhitelisted.into());
+    }
+
     /*if let Some(proof) = args.discount_proof.as_ref() {
         if verify_discount_proof(
             ctx.accounts.master_creator.key(),

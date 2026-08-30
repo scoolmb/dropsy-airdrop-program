@@ -64,8 +64,7 @@ export type InitializeAirdropMasterInstruction<
   TAccountProtocolTreasury extends string | AccountMeta<string> = string,
   TAccountTreasury extends string | AccountMeta<string> = string,
   TAccountAffiliate extends string | AccountMeta<string> = string,
-  TAccountMasterCreator extends string | AccountMeta<string> =
-    "6TMmpVof9fGXak2VUgP4X9sXNfPHA7XWyi9ZMUCrHP6A",
+  TAccountMasterCreator extends string | AccountMeta<string> = string,
   TAccountSystemProgram extends string | AccountMeta<string> =
     "11111111111111111111111111111111",
   TRemainingAccounts extends readonly AccountMeta<string>[] = [],
@@ -180,7 +179,7 @@ export type InitializeAirdropMasterAsyncInput<
   protocolTreasury: Address<TAccountProtocolTreasury>;
   treasury: Address<TAccountTreasury>;
   affiliate?: Address<TAccountAffiliate>;
-  masterCreator?: TransactionSigner<TAccountMasterCreator>;
+  masterCreator: TransactionSigner<TAccountMasterCreator>;
   systemProgram?: Address<TAccountSystemProgram>;
   airdropUpdateFee: InitializeAirdropMasterInstructionDataArgs["airdropUpdateFee"];
   airdropCreationFee: InitializeAirdropMasterInstructionDataArgs["airdropCreationFee"];
@@ -260,10 +259,6 @@ export async function getInitializeAirdropMasterInstructionAsync<
       ],
     });
   }
-  if (!accounts.masterCreator.value) {
-    accounts.masterCreator.value =
-      "6TMmpVof9fGXak2VUgP4X9sXNfPHA7XWyi9ZMUCrHP6A" as Address<"6TMmpVof9fGXak2VUgP4X9sXNfPHA7XWyi9ZMUCrHP6A">;
-  }
   if (!accounts.airdropMaster.value) {
     accounts.airdropMaster.value = await getProgramDerivedAddress({
       programAddress,
@@ -323,7 +318,7 @@ export type InitializeAirdropMasterInput<
   protocolTreasury: Address<TAccountProtocolTreasury>;
   treasury: Address<TAccountTreasury>;
   affiliate?: Address<TAccountAffiliate>;
-  masterCreator?: TransactionSigner<TAccountMasterCreator>;
+  masterCreator: TransactionSigner<TAccountMasterCreator>;
   systemProgram?: Address<TAccountSystemProgram>;
   airdropUpdateFee: InitializeAirdropMasterInstructionDataArgs["airdropUpdateFee"];
   airdropCreationFee: InitializeAirdropMasterInstructionDataArgs["airdropCreationFee"];
@@ -389,10 +384,6 @@ export function getInitializeAirdropMasterInstruction<
   const args = { ...input };
 
   // Resolve default values.
-  if (!accounts.masterCreator.value) {
-    accounts.masterCreator.value =
-      "6TMmpVof9fGXak2VUgP4X9sXNfPHA7XWyi9ZMUCrHP6A" as Address<"6TMmpVof9fGXak2VUgP4X9sXNfPHA7XWyi9ZMUCrHP6A">;
-  }
   if (!accounts.systemProgram.value) {
     accounts.systemProgram.value =
       "11111111111111111111111111111111" as Address<"11111111111111111111111111111111">;

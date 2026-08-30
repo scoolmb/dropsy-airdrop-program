@@ -23,16 +23,18 @@ import {
   parseDepositTokensInstruction,
   parseInitializeAirdropConfigInstruction,
   parseInitializeAirdropMasterInstruction,
+  parseUpdateAirdropConfigInstruction,
   type ParsedClaimAirdropInstruction,
   type ParsedCreateAirdropInstruction,
   type ParsedCreateBitmapInstruction,
   type ParsedDepositTokensInstruction,
   type ParsedInitializeAirdropConfigInstruction,
   type ParsedInitializeAirdropMasterInstruction,
+  type ParsedUpdateAirdropConfigInstruction,
 } from "../instructions";
 
 export const DROPSY_AIRDROP_PROGRAM_ADDRESS =
-  "drophxkcW5TRfbMQgo45Yti3q8jVxuxvuNufMnu8WiE" as Address<"drophxkcW5TRfbMQgo45Yti3q8jVxuxvuNufMnu8WiE">;
+  "3b97gLF94DDpa7sJQ8orbE3Ab6JQWBsDQTdQ5azoZqcz" as Address<"3b97gLF94DDpa7sJQ8orbE3Ab6JQWBsDQTdQ5azoZqcz">;
 
 export enum DropsyAirdropAccount {
   Airdrop,
@@ -101,6 +103,7 @@ export enum DropsyAirdropInstruction {
   DepositTokens,
   InitializeAirdropConfig,
   InitializeAirdropMaster,
+  UpdateAirdropConfig,
 }
 
 export function identifyDropsyAirdropInstruction(
@@ -173,13 +176,24 @@ export function identifyDropsyAirdropInstruction(
   ) {
     return DropsyAirdropInstruction.InitializeAirdropMaster;
   }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([115, 114, 134, 61, 40, 17, 128, 142]),
+      ),
+      0,
+    )
+  ) {
+    return DropsyAirdropInstruction.UpdateAirdropConfig;
+  }
   throw new Error(
     "The provided instruction could not be identified as a dropsyAirdrop instruction.",
   );
 }
 
 export type ParsedDropsyAirdropInstruction<
-  TProgram extends string = "drophxkcW5TRfbMQgo45Yti3q8jVxuxvuNufMnu8WiE",
+  TProgram extends string = "3b97gLF94DDpa7sJQ8orbE3Ab6JQWBsDQTdQ5azoZqcz",
 > =
   | ({
       instructionType: DropsyAirdropInstruction.ClaimAirdrop;
@@ -198,7 +212,10 @@ export type ParsedDropsyAirdropInstruction<
     } & ParsedInitializeAirdropConfigInstruction<TProgram>)
   | ({
       instructionType: DropsyAirdropInstruction.InitializeAirdropMaster;
-    } & ParsedInitializeAirdropMasterInstruction<TProgram>);
+    } & ParsedInitializeAirdropMasterInstruction<TProgram>)
+  | ({
+      instructionType: DropsyAirdropInstruction.UpdateAirdropConfig;
+    } & ParsedUpdateAirdropConfigInstruction<TProgram>);
 
 export function parseDropsyAirdropInstruction<TProgram extends string>(
   instruction: Instruction<TProgram> & InstructionWithData<ReadonlyUint8Array>,
@@ -245,6 +262,13 @@ export function parseDropsyAirdropInstruction<TProgram extends string>(
       return {
         instructionType: DropsyAirdropInstruction.InitializeAirdropMaster,
         ...parseInitializeAirdropMasterInstruction(instruction),
+      };
+    }
+    case DropsyAirdropInstruction.UpdateAirdropConfig: {
+      assertIsInstructionWithAccounts(instruction);
+      return {
+        instructionType: DropsyAirdropInstruction.UpdateAirdropConfig,
+        ...parseUpdateAirdropConfigInstruction(instruction),
       };
     }
     default:

@@ -11,7 +11,7 @@ description: Overview of the Create Airdrop instruction
 | ------------------ | ------ | -------- | -------- |
 | `airdropConfig`    | ❌      | ❌        | ✅        |
 | `protocolTreasury` | ❌      | ✅        | ✅        |
-| `airdropMaster`    | ❌      | ❌        | ✅        |
+| `airdropMaster`    | ❌      | ✅        | ✅        |
 | `treasury`         | ❌      | ✅        | ✅        |
 | `masterCreator`    | ❌      | ❌        | ✅        |
 | `airdrop`          | ❌      | ✅        | ✅        |

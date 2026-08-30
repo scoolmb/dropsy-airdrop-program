@@ -9,7 +9,21 @@ pub mod utils;
 
 use airdrop::*;
 use claim_map::*;
+use solana_security_txt::security_txt;
 
+/*security_txt! {
+    name: "Dropsy Airdrop",
+    project_url: "https://dropsy.org",
+    contacts: "email:security@dropsy.org",
+    policy: "https://dropsy.org",
+    preferred_languages: "en",
+    source_code: "https://github.com",
+    encryption: "https://dropsy.org",
+    acknowledgements: "We thank all whitehat researchers."
+}*/
+
+// test env
+//declare_id!("3b97gLF94DDpa7sJQ8orbE3Ab6JQWBsDQTdQ5azoZqcz");
 declare_id!("drophxkcW5TRfbMQgo45Yti3q8jVxuxvuNufMnu8WiE");
 
 #[program]
@@ -21,6 +35,12 @@ pub mod dropsy_airdrop {
         args: AirdropConfigInitArgs,
     ) -> Result<()> {
         airdrop::instruction::init_airdrop_config(ctx, args)
+    }
+    pub fn update_airdrop_config(
+        ctx: Context<UpdatedConfig>,
+        args: AirdropConfigInitArgs,
+    ) -> Result<()> {
+        airdrop::instruction::update_airdrop_config(ctx, args)
     }
     pub fn initialize_airdrop_master(
         ctx: Context<InitializedAirdropMaster>,

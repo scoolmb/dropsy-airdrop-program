@@ -66,4 +66,52 @@ impl AirdropConfig {
         self._padding = [0u8; 4];
         self.reserved = [0u8; 256]; // Initialize 256 bytes of reserved space
     }
+
+    pub fn update(&mut self, args: AirdropConfigInitArgs) {
+        if let Some(protocol_treasury) = args.protocol_treasury {
+            self.protocol_treasury = protocol_treasury;
+        }
+
+        if let Some(wl_root) = args.wl_root {
+            self.wl_root = wl_root;
+        }
+
+        if let Some(protocol_fee) = args.protocol_fee {
+            self.protocol_fee = protocol_fee;
+        }
+
+        if let Some(airdrop_master_create_fee) = args.airdrop_master_create_fee {
+            self.airdrop_master_create_fee = airdrop_master_create_fee;
+        }
+
+        if let Some(max_claim_fee) = args.max_claim_fee {
+            self.max_claim_fee = max_claim_fee;
+        }
+
+        if let Some(max_action_fee) = args.max_action_fee {
+            self.max_action_fee = max_action_fee;
+        }
+
+        if let Some(min_airdrop_duration) = args.min_airdrop_duration {
+            self.min_airdrop_duration = min_airdrop_duration;
+        }
+
+        if let Some(default_airdrop_duration) = args.default_airdrop_duration {
+            self.default_airdrop_duration = default_airdrop_duration;
+        }
+
+        if let Some(max_airdrop_duration) = args.max_airdrop_duration {
+            self.max_airdrop_duration = max_airdrop_duration;
+        }
+
+        if let Some(update_grace_period) = args.update_grace_period {
+            self.update_grace_period = update_grace_period;
+        }
+
+        if let Some(master_fee_bps) = args.master_fee_bps {
+            self.master_fee_bps = master_fee_bps;
+        }
+
+        self.version = self.version.saturating_add(1);
+    }
 }
