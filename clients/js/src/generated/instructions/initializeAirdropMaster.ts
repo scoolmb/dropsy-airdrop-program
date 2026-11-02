@@ -105,7 +105,7 @@ export type InitializeAirdropMasterInstructionData = {
   airdropClaimFee: Option<bigint>;
   airdropDelegateFee: Option<bigint>;
   bitmapCreationFee: Option<bigint>;
-  discountProof: Option<Array<ReadonlyUint8Array>>;
+  wlProof: Option<Array<ReadonlyUint8Array>>;
 };
 
 export type InitializeAirdropMasterInstructionDataArgs = {
@@ -114,7 +114,7 @@ export type InitializeAirdropMasterInstructionDataArgs = {
   airdropClaimFee: OptionOrNullable<number | bigint>;
   airdropDelegateFee: OptionOrNullable<number | bigint>;
   bitmapCreationFee: OptionOrNullable<number | bigint>;
-  discountProof: OptionOrNullable<Array<ReadonlyUint8Array>>;
+  wlProof: OptionOrNullable<Array<ReadonlyUint8Array>>;
 };
 
 export function getInitializeAirdropMasterInstructionDataEncoder(): Encoder<InitializeAirdropMasterInstructionDataArgs> {
@@ -127,7 +127,7 @@ export function getInitializeAirdropMasterInstructionDataEncoder(): Encoder<Init
       ["airdropDelegateFee", getOptionEncoder(getU64Encoder())],
       ["bitmapCreationFee", getOptionEncoder(getU64Encoder())],
       [
-        "discountProof",
+        "wlProof",
         getOptionEncoder(
           getArrayEncoder(fixEncoderSize(getBytesEncoder(), 32)),
         ),
@@ -149,7 +149,7 @@ export function getInitializeAirdropMasterInstructionDataDecoder(): Decoder<Init
     ["airdropDelegateFee", getOptionDecoder(getU64Decoder())],
     ["bitmapCreationFee", getOptionDecoder(getU64Decoder())],
     [
-      "discountProof",
+      "wlProof",
       getOptionDecoder(getArrayDecoder(fixDecoderSize(getBytesDecoder(), 32))),
     ],
   ]);
@@ -186,7 +186,7 @@ export type InitializeAirdropMasterAsyncInput<
   airdropClaimFee: InitializeAirdropMasterInstructionDataArgs["airdropClaimFee"];
   airdropDelegateFee: InitializeAirdropMasterInstructionDataArgs["airdropDelegateFee"];
   bitmapCreationFee: InitializeAirdropMasterInstructionDataArgs["bitmapCreationFee"];
-  discountProof: InitializeAirdropMasterInstructionDataArgs["discountProof"];
+  wlProof: InitializeAirdropMasterInstructionDataArgs["wlProof"];
 };
 
 export async function getInitializeAirdropMasterInstructionAsync<
@@ -325,7 +325,7 @@ export type InitializeAirdropMasterInput<
   airdropClaimFee: InitializeAirdropMasterInstructionDataArgs["airdropClaimFee"];
   airdropDelegateFee: InitializeAirdropMasterInstructionDataArgs["airdropDelegateFee"];
   bitmapCreationFee: InitializeAirdropMasterInstructionDataArgs["bitmapCreationFee"];
-  discountProof: InitializeAirdropMasterInstructionDataArgs["discountProof"];
+  wlProof: InitializeAirdropMasterInstructionDataArgs["wlProof"];
 };
 
 export function getInitializeAirdropMasterInstruction<

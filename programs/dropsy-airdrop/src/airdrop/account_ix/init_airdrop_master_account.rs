@@ -1,6 +1,5 @@
 use crate::airdrop::AirdropConfig;
-use crate::constants::{ADMIN, AIRDROP_CONFIG_SEED};
-use crate::error::ErrorCode;
+use crate::constants::{AIRDROP_CONFIG_SEED};
 use crate::MasterAirdropInitArgs;
 use crate::{airdrop::AirdropMaster, constants::AIRDROP_MASTER_SEED};
 use anchor_lang::prelude::*;

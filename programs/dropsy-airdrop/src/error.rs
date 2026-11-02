@@ -56,6 +56,7 @@ pub enum ErrorCode {
     #[msg("Airdrop updates are only allowed until cutoff time before start")]
     UpdateCutoffTimePassed = 108,
 
+
     /* ---------------------------- */
     /*       Authorization          */
     /*           200-299            */
@@ -189,6 +190,7 @@ pub enum ErrorCode {
     InvalidTreasuryAccount = 704,
     #[msg("invalid airdrop version")]
     InvalidAirdropVersion = 705,
+
     #[msg("Invalid vesting type")]
     InvalidVestingType = 707,
     #[msg("vesting account required for vested airdrop")]
@@ -197,4 +199,9 @@ pub enum ErrorCode {
     InvalidParentAccount = 709,
     #[msg("Airdrop version don't support vesting")]
     InvalidAirdropVestingVersion = 710,
+    #[msg("invalid airdrop id")]
+    InvalidAirdropId = 711,
+    #[msg("Airdrop has already been redeemed")]
+    AirdropAlreadyRedeemed= 712,
+    
 }

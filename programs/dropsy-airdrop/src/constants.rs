@@ -9,9 +9,6 @@ pub const AFFILIATE_SEED: &[u8] = b"affiliate";
 pub const BITMAP_SEED: &[u8] = b"bitmap";
 pub const VESTING_SEED: &[u8] = b"vesting";
 
-pub const PRESALE_SEED: &[u8] = b"presale";
-pub const VAULT_SEED: &[u8] = b"vault";
-// pubKeys
 pub const ADMIN: Pubkey = pubkey!("6TMmpVof9fGXak2VUgP4X9sXNfPHA7XWyi9ZMUCrHP6A");
 
 pub const MAX_BITMAP_CLAIM: u64 = BITMAP_SIZE as u64 * 8;

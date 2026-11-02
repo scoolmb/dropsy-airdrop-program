@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{BurnChecked, CloseAccount, TransferChecked};
 
+
 pub fn transfer_tokens_from_vault<'info>(
     vault: &AccountInfo<'info>,
     destination: &AccountInfo<'info>,

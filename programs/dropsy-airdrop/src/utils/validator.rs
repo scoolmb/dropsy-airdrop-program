@@ -1,11 +1,11 @@
 use crate::airdrop::{Airdrop, AirdropClaimArgs};
-use crate::constants::{BITMAP_SEED, MAX_BITMAP_CLAIM, VERSION_VESTED};
+use crate::constants::{BITMAP_SEED, DEFAULT_MERKLE_ROOT, MAX_BITMAP_CLAIM, VERSION_VESTED};
 use crate::error::ErrorCode;
 use crate::utils::{
-    calculate_bitmap_id, calculate_vested_bitmap_id, now, validate_timing, validate_version,
-    verify_merkle_proof,
+    calculate_bitmap_id, calculate_vested_bitmap_id, now, validate_airdrop_identity, validate_timing, validate_version, verify_discount_proof, verify_merkle_proof,
 };
 use anchor_lang::prelude::*;
+
 
 pub fn validate_master_treasury(treasury_key: Pubkey, master_treasury: Pubkey) -> Result<()> {
     require_keys_eq!(
@@ -89,6 +89,31 @@ pub fn validate_airdrop_claim(
     Ok(())
 }
 
+pub fn validate_redeem_tokens_input(
+    authority: &Pubkey,
+    airdrop: &Airdrop,
+    mint: &Pubkey,
+    id: u64,
+    expected_version: u8,
+) -> Result<()> {
+    let current_time = now()?;
+    
+    require!(
+        airdrop.is_ended(current_time),
+        ErrorCode::AirdropNotEnded
+    );
+    
+    validate_airdrop_identity(
+        airdrop,
+        authority,
+        mint,
+        id,
+        expected_version,
+    )?;
+    
+    Ok(())
+}
+
 pub fn validate_bitmap(
     bitmap_key: &Pubkey,
     airdrop_key: &Pubkey,
@@ -105,5 +130,39 @@ pub fn validate_bitmap(
     let seeds = &[BITMAP_SEED, airdrop_key.as_ref(), &bitmap_id.to_le_bytes()];
     let (expected_key, _) = Pubkey::find_program_address(seeds, program_id);
     require_keys_eq!(expected_key, *bitmap_key, ErrorCode::InvalidBitmapAccount);
+    Ok(())
+}
+
+pub fn validate_update_merkle_permissions(
+    airdrop: &Airdrop,
+    signer: Pubkey,
+) -> Result<()> {
+    let current_time = now()?;
+    //let is_authority = signer == airdrop.authority;
+    let is_delegate = signer == airdrop.delegate_authority;
+
+    require!(is_delegate, ErrorCode::Unauthorized);
+    require!(airdrop.merkle_root == DEFAULT_MERKLE_ROOT, ErrorCode::ImmutableAirdrop);
+    require!(
+        !airdrop.is_started(current_time),
+        ErrorCode::ImmutableAirdrop
+    );
+
+    Ok(())
+}
+
+pub fn validate_whitelist(
+    master_creator: Pubkey,
+    wl_root: [u8; 32],
+    wl_proof: Option<&Vec<[u8; 32]>>,
+) -> Result<()> {
+    let proof = wl_proof
+    .ok_or(ErrorCode::WlProofNotProvided)?;
+
+    require!(
+        verify_discount_proof(master_creator, wl_root, proof),
+        ErrorCode::NotWhitelisted
+    );
+
     Ok(())
 }

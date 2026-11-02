@@ -2,9 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::token_interface::Mint;
 
 use crate::{
-    airdrop::{AirdropInitArgs, AirdropInitData},
-    error::ErrorCode,
-    utils::{validate_airdrop_inputs, validate_mint},
+    airdrop::{ AirdropInitArgs, AirdropInitData}, error::ErrorCode, utils::{ validate_airdrop_inputs, validate_mint},
 };
 
 pub fn now() -> Result<i64> {
@@ -42,11 +40,13 @@ pub fn prepare_airdrop_data(
     let starts = args.starts_at.unwrap_or(now);
     let ends = args.ends_at.unwrap_or(starts + default_duration);
     let merkle_root = args.merkle_root.unwrap_or([0u8; 32]);
+    let delegate_authority = args.delegate_authority;
     let version = args.version.unwrap_or(0);
 
     validate_airdrop_inputs(starts, ends, version, minimum_duration)?;
 
     Ok(AirdropInitData {
+        delegate_authority,
         id: args.id,
         starts_at: starts,
         ends_at: ends,

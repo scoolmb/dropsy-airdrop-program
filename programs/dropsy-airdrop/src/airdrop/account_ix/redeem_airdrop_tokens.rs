@@ -1,18 +1,32 @@
 use anchor_lang::prelude::*;
 use anchor_spl::{associated_token::AssociatedToken, token_interface::{Mint, TokenAccount, TokenInterface}};
 
-use crate::{airdrop::{Airdrop}, constants::{ AIRDROP_SEED}, error::ErrorCode};
+use crate::{airdrop::{Airdrop, AirdropConfig,  AirdropRedeemTokensArgs}, constants::{ AIRDROP_CONFIG_SEED,  AIRDROP_SEED}, error::ErrorCode};
+
 
 #[derive(Accounts)]
+#[instruction(args: AirdropRedeemTokensArgs)]
 pub struct RedeemedTokens<'info> {
+    #[account(
+        seeds = [AIRDROP_CONFIG_SEED],
+        bump,
+        has_one = protocol_treasury @ ErrorCode::InvalidTreasuryAccount,
+    )]
+    pub airdrop_config: AccountLoader<'info, AirdropConfig>,
+
+    #[account(mut)]
+    /// CHECK: Treasury
+    pub protocol_treasury: UncheckedAccount<'info>,
     #[account(
         mut,
         seeds = [
             AIRDROP_SEED, 
-            mint.key().as_ref(), 
             authority.key().as_ref(),
+            mint.key().as_ref(), 
+            &args.airdrop_id.to_le_bytes() 
         ],
         bump,
+   
         has_one = authority @ ErrorCode::InvalidOwner,
         has_one = mint @ ErrorCode::MintMismatch,
     )]

@@ -2,7 +2,7 @@ use anchor_lang::{prelude::*, system_program};
 use anchor_spl::token_interface::Mint;
 use crate::AirdropInitArgs;
 use crate::airdrop::AirdropConfig;
-use crate::constants::{ADMIN, AIRDROP_CONFIG_SEED};
+use crate::constants::{ AIRDROP_CONFIG_SEED};
 use crate::error::ErrorCode;
 use crate::{airdrop::{Airdrop, AirdropMaster}, constants::{AIRDROP_MASTER_SEED, AIRDROP_SEED}, };
 

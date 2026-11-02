@@ -1,6 +1,5 @@
 use crate::airdrop::{AirdropClaimArgs, ClaimTokens};
 use crate::constants::{AIRDROP_SEED, VERSION_BASIC};
-use crate::error::ErrorCode;
 use crate::utils::{
     basic_claim, process_fee_recipients, transfer_tokens_from_vault, validate_airdrop_claim,
     validate_bitmap, validate_master_treasury, validate_token_account, FeeRecipient,
@@ -45,10 +44,10 @@ pub fn claim_tokens(ctx: Context<ClaimTokens>, args: AirdropClaimArgs) -> Result
     ]];
 
     let decimals = ctx.accounts.claim_base.mint.decimals;
-    let amount_in_base_units = args
+    /*let amount_in_base_units = args
         .amount
         .checked_mul(10u64.pow(decimals as u32))
-        .ok_or(ErrorCode::Overflow)?;
+        .ok_or(ErrorCode::Overflow)?;*/
 
     transfer_tokens_from_vault(
         &ctx.accounts
@@ -63,7 +62,7 @@ pub fn claim_tokens(ctx: Context<ClaimTokens>, args: AirdropClaimArgs) -> Result
         &ctx.accounts.claim_base.token_program.to_account_info(),
         &ctx.accounts.claim_base.mint.to_account_info(),
         signer_seeds,
-        amount_in_base_units,
+        args.amount, 
         decimals,
     )?;
 

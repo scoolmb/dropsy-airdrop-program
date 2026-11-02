@@ -36,7 +36,7 @@ impl Airdrop {
         self.master = airdrop_master;
         self.authority = authority;
         self.mint = mint;
-        self.delegate_authority = authority;
+        self.delegate_authority = data.delegate_authority.unwrap_or(authority);
         self.merkle_root = data.merkle_root;
         self.id = data.id;
         self.supply = 0;
@@ -53,7 +53,23 @@ impl Airdrop {
         Ok(())
     }
 
+    pub fn update_merkle_root(
+        &mut self,
+        merkle_root: [u8; 32],
+    ) {
+        self.merkle_root = merkle_root;
+        
+    }
+    
     pub fn is_vested(&self) -> bool {
         self.version == VERSION_VESTED
+    }
+    
+    pub fn is_started(&self, current_time: i64) -> bool {
+        current_time >= self.starts_at
+    }
+
+    pub fn is_ended(&self, current_time: i64) -> bool {
+        current_time >= self.ends_at
     }
 }

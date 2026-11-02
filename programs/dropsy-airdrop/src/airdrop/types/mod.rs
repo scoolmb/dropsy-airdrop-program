@@ -9,7 +9,7 @@ pub struct MasterAirdropInitArgs {
     pub airdrop_claim_fee: Option<u64>,
     pub airdrop_delegate_fee: Option<u64>,
     pub bitmap_creation_fee: Option<u64>,
-    pub discount_proof: Option<Vec<[u8; 32]>>,
+    pub wl_proof: Option<Vec<[u8; 32]>>,
 }
 
 impl MasterAirdropInitArgs {
@@ -60,7 +60,16 @@ pub struct AirdropInitArgs {
     pub delegate_authority: Option<Pubkey>,
 }
 
+#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
+pub struct AirdropUpdateArgs {
+    pub id: u64,
+    pub merkle_root: [u8; 32],
+    pub starts_at: Option<i64>,
+    pub ends_at: Option<i64>,
+}
+
 pub struct AirdropInitData {
+    pub delegate_authority:Option<Pubkey>,
     pub id: u64,
     pub starts_at: i64,
     pub ends_at: i64,
@@ -74,5 +83,10 @@ pub struct AirdropClaimArgs {
     pub proof: Vec<[u8; 32]>,
     pub amount: u64,
     pub claim_map_index: u16,
+    pub airdrop_id: u64,
+}
+
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Debug)]
+pub struct AirdropRedeemTokensArgs {
     pub airdrop_id: u64,
 }

@@ -57,10 +57,26 @@ pub mod dropsy_airdrop {
         airdrop::instruction::deposit_tokens(ctx, amount, airdrop_id)
     }
 
+    pub fn update_airdrop(ctx: Context<UpdatedAirdrop>, args: AirdropUpdateArgs) -> Result<()> {
+        airdrop::instruction::update_airdrop_data(ctx, args)
+    }
+
+
     pub fn claim_airdrop(ctx: Context<ClaimTokens>, args: AirdropClaimArgs) -> Result<()> {
         airdrop::instruction::claim_tokens(ctx, args)
     }
 
+
+    pub fn redeem_airdrop_tokens(
+        ctx: Context<RedeemedTokens>,
+        airdrop_id: u64,
+    ) -> Result<()> {
+        airdrop::instruction::redeem_tokens(ctx, airdrop_id)
+    }
+
+    pub fn close_airdrop(ctx: Context<ClosedAirdrop>, airdrop_id: u64, ) -> Result<()> {
+        airdrop::instruction::close_airdrop(ctx, airdrop_id)
+    }
     pub fn create_bitmap(
         ctx: Context<InitialisedBitmap>,
         id: u16,
@@ -68,5 +84,9 @@ pub mod dropsy_airdrop {
         airdrop_id: u64,
     ) -> Result<()> {
         claim_map::instruction::init_bitmap(ctx, id, total, airdrop_id)
+    }
+
+    pub fn close_bitmap(ctx: Context<ClosedBitmap>, airdrop_id: u64, id: u16,) -> Result<()> {
+        claim_map::instruction::close_bitmap(ctx, airdrop_id, id)
     }
 }

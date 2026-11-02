@@ -1,7 +1,7 @@
-use crate::airdrop::DepositTokens;
+use crate::airdrop::{DepositTokens};
 use crate::error::ErrorCode;
 use crate::utils::{
-    emit_deposited_tokens, now, transfer_tokens_to_pda, validate_mint, validate_token_account,
+     now, transfer_tokens_to_pda, validate_mint, validate_token_account,
 };
 use anchor_lang::prelude::*;
 
@@ -35,8 +35,6 @@ pub fn deposit_tokens(ctx: Context<DepositTokens>, amount: u64, _airdrop_id: u64
         amount,
         ctx.accounts.mint.decimals,
     )?;
-
-    emit_deposited_tokens(&airdrop, amount, ctx.accounts.airdrop.key())?;
 
     msg!("{} tokens deposited to airdrop", amount);
 

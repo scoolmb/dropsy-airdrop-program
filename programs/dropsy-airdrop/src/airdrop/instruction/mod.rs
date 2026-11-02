@@ -5,6 +5,8 @@ pub mod init_airdrop_config;
 pub mod init_airdrop_master;
 pub mod redeem_tokens;
 pub mod update_airdrop_config;
+pub mod close_airdrop;
+pub mod update_airdrop_data;
 
 pub use claim_token::*;
 pub use deposit_token::*;
@@ -13,3 +15,5 @@ pub use init_airdrop_config::*;
 pub use init_airdrop_master::*;
 pub use redeem_tokens::*;
 pub use update_airdrop_config::*;
+pub use close_airdrop::*;
+pub use update_airdrop_data::*;

@@ -1,27 +1,60 @@
 use crate::airdrop::RedeemedTokens;
-use crate::airdrop::TokensRedeemed;
 use crate::constants::{AIRDROP_SEED, STATE_REDEEMED};
 use crate::error::ErrorCode;
-use crate::utils::{close_vault_account, now, transfer_tokens_from_vault};
+use crate::utils::FeeRecipient;
+use crate::utils::process_fee_recipients;
+use crate::utils::validate_master_treasury;
+use crate::utils::validate_redeem_tokens_input;
+use crate::utils::validate_token_account;
+use crate::utils::{close_vault_account,  transfer_tokens_from_vault};
 use anchor_lang::prelude::*;
 
-pub fn redeem_tokens(ctx: Context<RedeemedTokens>) -> Result<()> {
-    let mut airdrop = ctx.accounts.airdrop.load_mut()?;
-    let authority_key = ctx.accounts.authority.key();
+pub fn redeem_tokens(
+    ctx: Context<RedeemedTokens>,
+    airdrop_id: u64,
+) -> Result<()> {
+    let airdrop_config = ctx.accounts.airdrop_config.load()?;
     let mint_key = ctx.accounts.mint.key();
 
-    let current_time = now()?;
-
-    require!(current_time > airdrop.ends_at, ErrorCode::AirdropNotEnded);
-
     let remaining_balance = ctx.accounts.vault.amount;
-    let bump = airdrop.bump;
+
+    validate_token_account(
+        &ctx.accounts.vault,
+        &ctx.accounts.airdrop.key(),
+        &ctx.accounts.mint.key(),
+        Some(remaining_balance),
+    )?;
+    validate_master_treasury(
+        ctx.accounts.protocol_treasury.key(),
+        airdrop_config.protocol_treasury,
+    )?;
+
+    // Read the required fields, then release the account borrow.
+    let (bump, id, airdrop_authority) = {
+        let airdrop = ctx.accounts.airdrop.load()?;
+        require!(
+            airdrop.state != STATE_REDEEMED,
+            ErrorCode::AirdropAlreadyRedeemed
+        );
+
+        validate_redeem_tokens_input(
+            &ctx.accounts.authority.key(),
+            &airdrop,
+            &ctx.accounts.mint.key(),
+            airdrop_id,
+            0,
+        )?;
+
+        (airdrop.bump, airdrop.id, airdrop.authority)
+    };
+
+
 
     let signer_seeds: &[&[&[u8]]] = &[&[
         AIRDROP_SEED,
+        airdrop_authority.as_ref(),
         mint_key.as_ref(),
-        authority_key.as_ref(),
-        &airdrop.id.to_le_bytes(),
+        &id.to_le_bytes(),
         &[bump],
     ]];
 
@@ -43,16 +76,27 @@ pub fn redeem_tokens(ctx: Context<RedeemedTokens>) -> Result<()> {
         ctx.accounts.token_program.to_account_info(),
         signer_seeds,
     )?;
+    
+    let recipients: Vec<FeeRecipient> = vec![
+        FeeRecipient {
+            account: ctx.accounts.protocol_treasury.to_account_info(),
+            allocation: airdrop_config.protocol_fee,
+        },
+    ];
 
-    airdrop.state = STATE_REDEEMED;
+    process_fee_recipients(
+        &ctx.accounts.authority.to_account_info(),
+        &ctx.accounts.system_program.to_account_info(),
+        recipients,
+    )?;
 
-    emit!(TokensRedeemed {
-        airdrop: ctx.accounts.airdrop.key(),
-        authority: airdrop.authority,
-        timestamp: current_time,
-    });
+    // Reborrow only after the CPI/helper calls have completed.
+    {
+        let mut airdrop = ctx.accounts.airdrop.load_mut()?;
+        airdrop.state = STATE_REDEEMED;
+    }
 
-    msg!("{} redeemed succefully ", remaining_balance);
+    msg!("{} redeemed successfully", remaining_balance);
 
     Ok(())
 }

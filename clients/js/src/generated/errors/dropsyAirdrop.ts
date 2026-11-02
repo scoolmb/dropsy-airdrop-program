@@ -164,10 +164,15 @@ export const DROPSY_AIRDROP_ERROR__VESTING_ACCOUNT_REQUIRED = 0x1a34; // 6708
 export const DROPSY_AIRDROP_ERROR__INVALID_PARENT_ACCOUNT = 0x1a35; // 6709
 /** InvalidAirdropVestingVersion: Airdrop version don't support vesting */
 export const DROPSY_AIRDROP_ERROR__INVALID_AIRDROP_VESTING_VERSION = 0x1a36; // 6710
+/** InvalidAirdropId: invalid airdrop id */
+export const DROPSY_AIRDROP_ERROR__INVALID_AIRDROP_ID = 0x1a37; // 6711
+/** AirdropAlreadyRedeemed: Airdrop has already been redeemed */
+export const DROPSY_AIRDROP_ERROR__AIRDROP_ALREADY_REDEEMED = 0x1a38; // 6712
 
 export type DropsyAirdropError =
   | typeof DROPSY_AIRDROP_ERROR__ACTION_FEE_TOO_HIGH
   | typeof DROPSY_AIRDROP_ERROR__ACTIVE_BITMAPS_EXIST
+  | typeof DROPSY_AIRDROP_ERROR__AIRDROP_ALREADY_REDEEMED
   | typeof DROPSY_AIRDROP_ERROR__AIRDROP_ENDED
   | typeof DROPSY_AIRDROP_ERROR__AIRDROP_NOT_ENDED
   | typeof DROPSY_AIRDROP_ERROR__AIRDROP_NOT_STARTED
@@ -186,6 +191,7 @@ export type DropsyAirdropError =
   | typeof DROPSY_AIRDROP_ERROR__INSUFFICIENT_VAULT_FUNDS
   | typeof DROPSY_AIRDROP_ERROR__INVALID_ADMIN
   | typeof DROPSY_AIRDROP_ERROR__INVALID_AFFILIATE_PDA
+  | typeof DROPSY_AIRDROP_ERROR__INVALID_AIRDROP_ID
   | typeof DROPSY_AIRDROP_ERROR__INVALID_AIRDROP_PDA
   | typeof DROPSY_AIRDROP_ERROR__INVALID_AIRDROP_VERSION
   | typeof DROPSY_AIRDROP_ERROR__INVALID_AIRDROP_VESTING_VERSION
@@ -247,6 +253,7 @@ if (process.env.NODE_ENV !== "production") {
   dropsyAirdropErrorMessages = {
     [DROPSY_AIRDROP_ERROR__ACTION_FEE_TOO_HIGH]: `Action fee exceeds maximum allowed`,
     [DROPSY_AIRDROP_ERROR__ACTIVE_BITMAPS_EXIST]: `Active bitmaps exist`,
+    [DROPSY_AIRDROP_ERROR__AIRDROP_ALREADY_REDEEMED]: `Airdrop has already been redeemed`,
     [DROPSY_AIRDROP_ERROR__AIRDROP_ENDED]: `Airdrop has already ended`,
     [DROPSY_AIRDROP_ERROR__AIRDROP_NOT_ENDED]: `Airdrop not yet ended`,
     [DROPSY_AIRDROP_ERROR__AIRDROP_NOT_STARTED]: `Airdrop has not started yet`,
@@ -265,6 +272,7 @@ if (process.env.NODE_ENV !== "production") {
     [DROPSY_AIRDROP_ERROR__INSUFFICIENT_VAULT_FUNDS]: `Insufficient vault funds`,
     [DROPSY_AIRDROP_ERROR__INVALID_ADMIN]: `This Request Requires Admin Privileges`,
     [DROPSY_AIRDROP_ERROR__INVALID_AFFILIATE_PDA]: `Mismatched affiliate PDA`,
+    [DROPSY_AIRDROP_ERROR__INVALID_AIRDROP_ID]: `invalid airdrop id`,
     [DROPSY_AIRDROP_ERROR__INVALID_AIRDROP_PDA]: `Invalid vault account`,
     [DROPSY_AIRDROP_ERROR__INVALID_AIRDROP_VERSION]: `invalid airdrop version`,
     [DROPSY_AIRDROP_ERROR__INVALID_AIRDROP_VESTING_VERSION]: `Airdrop version don't support vesting`,

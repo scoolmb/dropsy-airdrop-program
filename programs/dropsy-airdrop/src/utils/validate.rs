@@ -1,7 +1,5 @@
 use crate::{
-    constants::{VERSION_BASIC, VERSION_VESTED},
-    error::ErrorCode,
-    utils::now,
+    airdrop::Airdrop, constants::{VERSION_BASIC, VERSION_VESTED}, error::ErrorCode, utils::now,
 };
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{Mint, TokenAccount};
@@ -64,10 +62,6 @@ pub fn validate_pubkey(value: Pubkey, expected: Pubkey, field: &str) -> Result<(
     Ok(())
 }
 
-pub fn validate_dropsy_token(value: Pubkey, expected: Pubkey) -> Result<()> {
-    require_keys_eq!(value, expected, ErrorCode::MintMismatch);
-    Ok(())
-}
 
 pub fn validate_mint(mint: &Mint) -> Result<()> {
     // Must NOT have freeze authority
@@ -128,6 +122,37 @@ pub fn validate_timing(starts_at: i64, ends_at: i64, minimum_duration: i64) -> R
     require!(
         ends_at.saturating_sub(minimum_duration) >= current_time,
         ErrorCode::InvalidEndTime
+    );
+
+    Ok(())
+}
+
+pub fn validate_airdrop_identity(
+    airdrop: &Airdrop,
+    authority: &Pubkey,
+    mint: &Pubkey,
+    id: u64,
+    expected_version: u8,
+) -> Result<()> {
+    require_keys_eq!(
+        *authority,
+        airdrop.authority,
+        ErrorCode::UnAuthorized
+    );
+    require_keys_eq!(
+        *mint,
+        airdrop.mint,
+        ErrorCode::InvalidMint
+    );
+
+    require!(
+        airdrop.id == id,
+        ErrorCode::InvalidAirdropId
+    );
+
+    require!(
+        airdrop.version == expected_version,
+        ErrorCode::InvalidAirdropVersion
     );
 
     Ok(())
